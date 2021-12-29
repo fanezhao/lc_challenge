@@ -50,16 +50,49 @@
 */
 
 package com.zmoyi.leetcode.editor.cn;
-public class Q9PalindromeNumber{
+
+public class Q9PalindromeNumber {
     public static void main(String[] args) {
         Solution solution = new Q9PalindromeNumber().new Solution();
+        System.out.println(solution.isPalindrome(121));
+        System.out.println(solution.isPalindrome(1221));
+        System.out.println(solution.isPalindrome(10));
+        System.out.println(solution.isPalindrome(-121));
+        System.out.println(solution.isPalindrome(-10));
+        System.out.println(solution.isPalindrome(-101));
     }
-    //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public boolean isPalindrome(int x) {
 
+    //leetcode submit region begin(Prohibit modification and deletion)
+    class Solution {
+        /**
+         * 思路：
+         * 1、如果是负数，肯定不是；
+         * 2、如果是个位数，肯定是；
+         * 3、数字转成字符串，使用双指针，从头和尾一起进行比对。
+         * 只要有头指针和尾指针对应的元素不同，肯定不是。一起比对到两个指针相同或相差1。
+         * @param x
+         * @return
+         */
+        public boolean isPalindrome(int x) {
+            if (x < 0) {
+                return false;
+            }
+            if (x <= 9) {
+                return true;
+            }
+            char[] chars = String.valueOf(x).toCharArray();
+            for (int i = 0; i < chars.length; i++) {
+                int tempIdx = chars.length - 1 - i;
+                if (chars[i] != chars[tempIdx]) {
+                    return false;
+                }
+                if (i == tempIdx || i + 1 == tempIdx) {
+                    return true;
+                }
+            }
+            return true;
+        }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
