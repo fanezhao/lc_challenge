@@ -60,6 +60,14 @@ public class Q9PalindromeNumber {
         System.out.println(solution.isPalindrome(-121));
         System.out.println(solution.isPalindrome(-10));
         System.out.println(solution.isPalindrome(-101));
+        System.out.println("---");
+        System.out.println(solution.isPalindrome2(121));
+        System.out.println(solution.isPalindrome2(1221));
+        System.out.println(solution.isPalindrome2(123));
+        System.out.println(solution.isPalindrome2(10));
+        System.out.println(solution.isPalindrome2(-121));
+        System.out.println(solution.isPalindrome2(-10));
+        System.out.println(solution.isPalindrome2(-101));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -91,6 +99,37 @@ public class Q9PalindromeNumber {
                 }
             }
             return true;
+        }
+
+        /**
+         * 1、负数肯定不是
+         * 2、最后一位是0的肯定也不是，因为第一位不可能是0。
+         * 3、使用数学获取反转数字。从最后一位数字入手，从低位往高位计算。
+         * 通过x % 10可以获取x的最后一位，然后再将 x / 10 可以获取去除最后一位的新x
+         * 然后倒数第二位又 = 新x % 10，这样反转数 = 最后一位 * 10 + 倒数第二位
+         * 这样依次进行。即可获得反转数。
+         * 4、因为反转数在不断增大，新x在不断减小，所以当新x小于反转数的时候，
+         * 就证明获得这个数的一半的反转数了，这里就可以和新x进行对比了，就不用继续反转了
+         * 5、当新x等于反转数。代表这个数是偶数位，是回文数；
+         * 如果不相等，因为此时x是小于反转数的，且x是比反转数小一位，所以就看x 是否等于回文数去掉最后一位，相等就是回文数。
+         * 去掉的最后一位就是奇数x的中间一位。
+         * @param x
+         * @return
+         */
+        public boolean isPalindrome2(int x) {
+            if (x < 0) {
+                return false;
+            }
+            if (x % 10 == 0 && x != 0) {
+                return false;
+            }
+
+            int revertNum = 0;
+            while (x > revertNum) {
+                revertNum = revertNum * 10 + x % 10;
+                x = x / 10;
+            }
+            return revertNum == x || x == revertNum / 10;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
