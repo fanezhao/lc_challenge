@@ -63,7 +63,7 @@ public class Q27RemoveElement {
         Solution solution = new Q27RemoveElement().new Solution();
         int[] arr1 = {3, 2, 2, 3};
         int val1 = 3;
-        System.out.println(solution.removeElement(arr1, val1));
+        System.out.println(solution.removeElement2(arr1, val1));
         int[] arr2 = {0, 1, 2, 2, 3, 0, 4, 2};
         int val2 = 2;
         System.out.println(solution.removeElement(arr2, val2));
@@ -88,6 +88,30 @@ public class Q27RemoveElement {
             for (int end = 0; end < nums.length; end++) {
                 if (nums[end] != val) {
                     nums[start] = nums[end];
+                    start++;
+                }
+            }
+            return start;
+        }
+
+        /**
+         * 双指针优化：头尾指针。只要头指针不等于val，头指针就往前挪。
+         * 相对普通双指针，在和val值相等的元素比较少的时候，移动次数更少。
+         * @param nums
+         * @param val
+         * @return
+         */
+        public int removeElement2(int[] nums, int val) {
+            if (nums.length == 0) {
+                return 0;
+            }
+            int start = 0;
+            int end = nums.length;
+            while (start < end) {
+                if (nums[start] == val) {
+                    nums[start] = nums[end - 1];
+                    end--;
+                } else {
                     start++;
                 }
             }
