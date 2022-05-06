@@ -40,10 +40,19 @@ public class Q14LongestCommonPrefix {
         System.out.println(solution.longestCommonPrefix(strs));
         String[] strs1 = new String[]{"dog","racecar","car"};
         System.out.println(solution.longestCommonPrefix(strs1));
+
+        System.out.println(solution.longestCommonPrefix2(strs));
+        System.out.println(solution.longestCommonPrefix2(strs1));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+        /**
+         * 自己的想法：先找出最短的字符串shortest，如果其它的字符串都以它开头，那它就是公共最长前缀；
+         * 如果不是，就逐步缩短它，再进行比较。
+         * @param strs
+         * @return
+         */
         public String longestCommonPrefix(String[] strs) {
             if (strs.length == 0) {
                 return "";
@@ -73,6 +82,35 @@ public class Q14LongestCommonPrefix {
             }
 
             return "";
+        }
+
+        /**
+         * 横向比较：
+         * @param strs
+         * @return
+         */
+        public String longestCommonPrefix2(String[] strs) {
+            if (strs.length == 0) {
+                return "";
+            }
+
+            String commonPrefix = strs[0];
+
+            for (int i = 1; i < strs.length; i++) {
+
+                int minLen = Math.min(commonPrefix.length(), strs[i].length());
+                int index = 0;
+                while (index < minLen && commonPrefix.charAt(index) == strs[i].charAt(index)) {
+                    index++;
+                }
+
+                if (index == 0) {
+                    return "";
+                } else {
+                    commonPrefix = commonPrefix.substring(0, index);
+                }
+            }
+            return commonPrefix;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
