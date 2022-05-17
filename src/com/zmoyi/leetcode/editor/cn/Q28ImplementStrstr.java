@@ -47,6 +47,9 @@
 
 package com.zmoyi.leetcode.editor.cn;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Q28ImplementStrstr {
     public static void main(String[] args) {
         Solution solution = new Q28ImplementStrstr().new Solution();
@@ -56,9 +59,11 @@ public class Q28ImplementStrstr {
         // String haystack1 = "aaaaa";
         // String needle1 = "bba";
         // System.out.println(solution.strStr(haystack1, needle1));
-        String haystack2 = "mississippi";
-        String needle2 = "issipi";
+        String haystack2 = "checithisout";
+        String needle2 = "this";
         System.out.println(solution.strStr(haystack2, needle2));
+        System.out.println(solution.strStr2(haystack2, needle2));
+        System.out.println(solution.strStr3(haystack2, needle2));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -93,6 +98,65 @@ public class Q28ImplementStrstr {
                     } else {
                         break;
                     }
+                }
+            }
+            return -1;
+        }
+
+        public int strStr2(String haystack, String needle) {
+            int n = haystack.length();
+            int m = needle.length();
+
+            char[] hl = haystack.toCharArray();
+            char[] nl = needle.toCharArray();
+
+            // 枚举原串的「发起点」，最多循环两个字符串长度差的次数
+            for (int i = 0; i <= n - m; i++) {
+                // 从原串的「发起点」和匹配串的「首位」开始，尝试匹配
+                int a = i, b = 0;
+                // 如果匹配串没到头就继续匹配
+                while (b < m && hl[a] == nl[b]) {
+                    a++;
+                    b++;
+                }
+                // 如果匹配串匹配到头就说明完全匹配了，返回原串的发起点的下标即可
+                if (b == m) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        /**
+         * Sunday Algorithm
+         * @return
+         */
+        public int strStr3(String haystack, String needle) {
+
+            int hl = haystack.length();
+            int nl = needle.length();
+
+            if (nl == 0) {
+                return 0;
+            }
+
+            if (hl < nl) {
+                return -1;
+            }
+
+            // 构建偏移量
+            Map<Character, Integer> offset = new HashMap<>();
+            for (int i = 0; i < nl; i++) {
+                offset.put(needle.charAt(i), nl - i);
+            }
+
+            int idx = 0;
+            while (idx <= hl - nl) {
+                if (haystack.substring(idx, idx + nl).equals(needle)) {
+                    return idx;
+                } else {
+                    // 不匹配情况下，根据下一个字符的偏移，移动idx
+                    idx += offset.getOrDefault(haystack.charAt(idx + nl), nl + 1);
                 }
             }
             return -1;
