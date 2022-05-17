@@ -63,6 +63,10 @@ public class Q35SearchInsertPosition {
         System.out.println(solution.searchInsert(nums1, 2));
         System.out.println(solution.searchInsert(nums1, 7));
         System.out.println(solution.searchInsert(nums1, 0));
+        System.out.println(solution.searchInsert2(nums1, 5));
+        System.out.println(solution.searchInsert2(nums1, 2));
+        System.out.println(solution.searchInsert2(nums1, 7));
+        System.out.println(solution.searchInsert2(nums1, 0));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -88,6 +92,22 @@ public class Q35SearchInsertPosition {
                 }
             }
             return nums[start] < target ? start + 1 : start;
+        }
+
+        public int searchInsert2(int[] nums, int target) {
+            int start = 0;
+            int end = nums.length - 1;
+            while (start <= end) {
+                int middle = (start + end) / 2;
+                if (nums[middle] < target) {
+                    start = middle + 1;
+                } else if (nums[middle] > target) {
+                    end = middle - 1;
+                } else {
+                    return middle;
+                }
+            }
+            return start;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
